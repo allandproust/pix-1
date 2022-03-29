@@ -4,40 +4,6 @@ import { A } from '@ember/array';
 import Component from '@glimmer/component';
 
 export default class ListTubes extends Component {
-  levelOptions = [
-    {
-      value: 0,
-      label: 'Illimité',
-    },
-    {
-      value: 1,
-      label: '1',
-    },
-    {
-      value: 2,
-      label: '2',
-    },
-    {
-      value: 3,
-      label: '3',
-    },
-    {
-      value: 4,
-      label: '4',
-    },
-    {
-      value: 5,
-      label: '5',
-    },
-    {
-      value: 6,
-      label: '6',
-    },
-    {
-      value: 7,
-      label: '7',
-    },
-  ];
   @tracked tubesSelected = A();
 
   get haveNoTubeSelected() {
