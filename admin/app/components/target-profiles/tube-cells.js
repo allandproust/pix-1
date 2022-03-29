@@ -1,9 +1,10 @@
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
 export default class TubeCells extends Component {
   levelOptions = [
     {
-      value: 0,
+      value: 'Illimité',
       label: 'Illimité',
     },
     {
@@ -40,6 +41,14 @@ export default class TubeCells extends Component {
     const tubeId = this.args.tube.id;
     const tubesSelected = this.args.tubesSelected;
 
-    return !tubesSelected.find((tube) => tube === tubeId);
+    return !tubesSelected.find((tube) => tube.id === tubeId);
+  }
+
+  @action
+  setLevelTube(event) {
+    const select = event.currentTarget;
+    const level = select.value;
+    const tubeId = this.args.tube.id;
+    this.args.setLevelTube(tubeId, level);
   }
 }
