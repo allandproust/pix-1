@@ -149,6 +149,7 @@ module.exports = (function () {
     },
 
     caching: {
+      redisCacheEnabled: true,
       redisUrl: process.env.REDIS_URL,
       redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
       redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
@@ -323,7 +324,7 @@ module.exports = (function () {
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
 
-    config.caching.redisUrl = null;
+    config.caching.redisCacheEnabled = false;
     config.caching.redisCacheKeyLockTTL = 0;
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
 

@@ -11,7 +11,7 @@ const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';
 class LearningContentCache extends Cache {
   constructor() {
     super();
-    if (settings.caching.redisUrl) {
+    if (settings.caching.redisCacheEnabled && settings.caching.redisUrl) {
       this.distributedCache = new DistributedCache(
         new InMemoryCache(),
         settings.caching.redisUrl,
