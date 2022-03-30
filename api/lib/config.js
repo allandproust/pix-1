@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const moment = require('moment');
 const ms = require('ms');
@@ -259,6 +260,10 @@ module.exports = (function () {
     config.features.garAccessV2 = false;
     config.features.numberOfChallengesForFlashMethod = 10;
 
+    config.featureToggles.isEmailValidationEnabled = false;
+    config.featureToggles.isCertificationBillingEnabled = false;
+    config.featureToggles.isNewTutorialsPageEnabled = false;
+
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
 
@@ -324,6 +329,7 @@ module.exports = (function () {
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
 
+    config.caching.redisUrl = null;
     config.caching.redisCacheEnabled = false;
     config.caching.redisCacheKeyLockTTL = 0;
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
