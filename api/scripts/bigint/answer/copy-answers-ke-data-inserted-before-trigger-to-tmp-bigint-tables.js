@@ -34,7 +34,7 @@ const copyAnswerKeDataInsertedBeforeTrigger = async () => {
   const endTime = performance.now();
 
   logger.debug(`Call to copyAnswerKeDataInsertedBeforeTrigger took ${endTime - startTime} milliseconds`);
-  logger.debug('Finish add constraints');
+  logger.debug('Finish copy answer and Ke to bigint table inserted before trigger');
 };
 
 const isLaunchedFromCommandLine = require.main === module;
