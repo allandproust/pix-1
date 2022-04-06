@@ -265,4 +265,8 @@ module.exports = {
       .where({ userId: originUserId, identityProvider })
       .update({ userId: targetUserId, updatedAt: new Date() });
   },
+
+  async update({ id, authenticationComplement }) {
+    await knex(AUTHENTICATION_METHODS_TABLE).where({ id }).update({ authenticationComplement, updatedAt: new Date() });
+  },
 };
