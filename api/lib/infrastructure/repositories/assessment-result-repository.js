@@ -63,7 +63,14 @@ module.exports = {
         assessmentId,
       }).save(null, { require: true, transacting: domainTransaction.knexTransaction });
 
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
+      const savedAssessmentResult = bookshelfToDomainConverter.buildDomainObject(
+        BookshelfAssessmentResult,
+        savedAssessmentResultBookshelf
+      );
+      savedAssessmentResult.reproducibilityRate = savedAssessmentResult.reproducibilityRate
+        ? _.toNumber(savedAssessmentResult.reproducibilityRate)
+        : null;
+      return savedAssessmentResult;
     } catch (error) {
       throw new AssessmentResultNotCreatedError();
     }
