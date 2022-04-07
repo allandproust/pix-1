@@ -40,17 +40,15 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       .resolves(certificationAssessment);
     certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
 
-    const competenceMarkData2 = domainBuilder.buildCompetenceMark();
-    const competenceMarkData1 = domainBuilder.buildCompetenceMark();
-    const nbPix = Symbol('nbPix');
-    const status = Symbol('status');
-    const certificationAssessmentScore = {
-      nbPix,
-      status,
+    const competenceMarkData2 = domainBuilder.buildCompetenceMark({ score: 5 });
+    const competenceMarkData1 = domainBuilder.buildCompetenceMark({ score: 4 });
+    const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+      nbPix: 9,
+      status: AssessmentResult.status.VALIDATED,
       competenceMarks: [competenceMarkData1, competenceMarkData2],
       percentageCorrectAnswers: 80,
       hasEnoughNonNeutralizedChallengesToBeTrusted: true,
-    };
+    });
     scoringCertificationService.calculateCertificationAssessmentScore
       .withArgs({ certificationAssessment, continueOnError: false })
       .resolves(certificationAssessmentScore);
@@ -59,8 +57,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       id: undefined,
       commentForJury: 'Computed',
       emitter: 'PIX-ALGO-NEUTRALIZATION',
-      pixScore: nbPix,
-      status: status,
+      pixScore: 9,
+      reproducibilityRate: 80,
+      status: AssessmentResult.status.VALIDATED,
       assessmentId: 123,
       juryId: 7,
     });
@@ -135,6 +134,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.notTrustable({
         emitter: 'PIX-ALGO-NEUTRALIZATION',
         pixScore: 30,
+        reproducibilityRate: 80,
         status: AssessmentResult.status.VALIDATED,
         assessmentId: 123,
         juryId: 7,
@@ -208,6 +208,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.standard({
         emitter: 'PIX-ALGO-NEUTRALIZATION',
         pixScore: 30,
+        reproducibilityRate: 80,
         status: AssessmentResult.status.VALIDATED,
         assessmentId: 123,
         juryId: 7,
@@ -255,11 +256,11 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       .resolves(certificationAssessment);
     certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
 
-    const certificationAssessmentScore = {
+    const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
       competenceMarks: [],
       percentageCorrectAnswers: 80,
       hasEnoughNonNeutralizedChallengesToBeTrusted: true,
-    };
+    });
     scoringCertificationService.calculateCertificationAssessmentScore
       .withArgs({ certificationAssessment, continueOnError: false })
       .resolves(certificationAssessmentScore);
@@ -323,6 +324,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       emitter: 'PIX-ALGO-NEUTRALIZATION',
       commentForJury: 'Oopsie',
       pixScore: 0,
+      reproducibilityRate: 0,
       status: 'error',
       assessmentId: 123,
       juryId: 7,
