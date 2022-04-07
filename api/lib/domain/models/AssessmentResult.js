@@ -17,6 +17,7 @@ class AssessmentResult {
     createdAt,
     emitter,
     pixScore,
+    reproducibilityRate,
     status,
     competenceMarks = [],
     assessmentId,
@@ -29,6 +30,7 @@ class AssessmentResult {
     this.createdAt = createdAt;
     this.emitter = emitter;
     this.pixScore = pixScore;
+    this.reproducibilityRate = reproducibilityRate;
     this.status = status;
     this.competenceMarks = competenceMarks;
     this.assessmentId = assessmentId;
@@ -40,17 +42,19 @@ class AssessmentResult {
       emitter,
       commentForJury: error.message,
       pixScore: 0,
+      reproducibilityRate: 0,
       status: status.ERROR,
       assessmentId,
       juryId,
     });
   }
 
-  static buildStandardAssessmentResult({ pixScore, status, assessmentId, juryId, emitter }) {
+  static buildStandardAssessmentResult({ pixScore, reproducibilityRate, status, assessmentId, juryId, emitter }) {
     return new AssessmentResult({
       emitter,
       commentForJury: 'Computed',
       pixScore: pixScore,
+      reproducibilityRate: reproducibilityRate,
       status,
       assessmentId,
       juryId,
@@ -64,7 +68,7 @@ class AssessmentResult {
     });
   }
 
-  static buildNotTrustableAssessmentResult({ pixScore, status, assessmentId, juryId, emitter }) {
+  static buildNotTrustableAssessmentResult({ pixScore, reproducibilityRate, status, assessmentId, juryId, emitter }) {
     return new AssessmentResult({
       emitter,
       commentForCandidate:
@@ -80,6 +84,7 @@ class AssessmentResult {
         'et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).',
       commentForJury: 'Computed',
       pixScore,
+      reproducibilityRate,
       status,
       assessmentId,
       juryId,
