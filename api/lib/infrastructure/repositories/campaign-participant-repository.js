@@ -82,14 +82,14 @@ async function get({ userId, campaignId, domainTransaction }) {
 
   const campaignToStartParticipation = await _getCampaignToStart(campaignId, domainTransaction);
 
-  const schoolingRegistrationId = await _getSchoolingRegistrationId(campaignId, userId, domainTransaction);
+  const organizationLearner = await _getOrganizationLearner(campaignId, userId, domainTransaction);
 
   const previousCampaignParticipation = await _findPreviousCampaignParticipation(campaignId, userId, domainTransaction);
 
   return new CampaignParticipant({
     userIdentity,
     campaignToStartParticipation,
-    schoolingRegistrationId,
+    organizationLearner,
     previousCampaignParticipation,
   });
 }
@@ -129,14 +129,22 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
   return new CampaignToStartParticipation({ ...campaignAttributes, skillCount: skills.length });
 }
 
-async function _getSchoolingRegistrationId(campaignId, userId, domainTransaction) {
-  const [id] = await domainTransaction
+async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
+  const organizationLearner = { id: null, hasParticipated: false };
+  const [row] = await domainTransaction
     .knexTransaction('campaigns')
+    .select({ id: 'organization-learners.id', campaignParticipationId: 'campaign-participations.id' })
     .join('organization-learners', 'organization-learners.organizationId', 'campaigns.organizationId')
-    .where({ 'campaigns.id': campaignId, userId, isDisabled: false })
-    .pluck('organization-learners.id');
+    .leftJoin('campaign-participations', function () {
+      this.on('campaign-participations.organizationLearnerId', '=', 'organization-learners.id');
+    })
+    .where({ 'campaigns.id': campaignId, 'organization-learners.userId': userId, isDisabled: false });
 
-  return id;
+  if (row) {
+    organizationLearner.id = row.id;
+    organizationLearner.hasParticipated = Boolean(row.campaignParticipationId);
+  }
+  return organizationLearner;
 }
 
 async function _findPreviousCampaignParticipation(campaignId, userId, domainTransaction) {
