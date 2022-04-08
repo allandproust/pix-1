@@ -6,12 +6,13 @@ const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindr
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 
 class CampaignParticipant {
-  constructor({ campaignToStartParticipation, schoolingRegistrationId, userIdentity, previousCampaignParticipation }) {
+  constructor({ campaignToStartParticipation, organizationLearner, userIdentity, previousCampaignParticipation }) {
     this.campaignToStartParticipation = campaignToStartParticipation;
-    this.schoolingRegistrationId = schoolingRegistrationId;
+    this.organizationLearnerId = organizationLearner?.id;
     this.userIdentity = userIdentity;
     this.previousCampaignParticipation = previousCampaignParticipation;
     this.schoolingRegistration = null;
+    this.organizationLearner = organizationLearner;
   }
 
   start({ participantExternalId }) {
@@ -45,13 +46,13 @@ class CampaignParticipant {
     this.campaignParticipation = CampaignParticipation.start({
       campaign: this.campaignToStartParticipation,
       userId: this.userIdentity.id,
-      schoolingRegistrationId: this.schoolingRegistrationId,
+      schoolingRegistrationId: this.organizationLearnerId,
       participantExternalId: participantExternalIdToUse,
     });
   }
 
   _shouldBecomeTrainee() {
-    return !this.campaignToStartParticipation.isRestricted && !this.schoolingRegistrationId;
+    return !this.campaignToStartParticipation.isRestricted && !this.organizationLearnerId;
   }
 
   _checkCanParticipateToCampaign(participantExternalId) {
@@ -59,7 +60,7 @@ class CampaignParticipant {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
 
-    if (this.campaignToStartParticipation.isRestricted && !this.schoolingRegistrationId) {
+    if (this.campaignToStartParticipation.isRestricted && !this.organizationLearnerId) {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
 
@@ -89,6 +90,10 @@ class CampaignParticipant {
           },
         ],
       });
+    }
+
+    if (this.organizationLearner.hasParticipated) {
+      throw new AlreadyExistingCampaignParticipationError('ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED');
     }
   }
 
