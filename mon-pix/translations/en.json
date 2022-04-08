@@ -133,7 +133,8 @@
     "campaign": {
       "errors": {
         "no-longer-accessible": "Oops, the requested page is not available.",
-        "not-accessible": "Oops, the requested page is not available."
+        "not-accessible": "Oops, the requested page is not available.",
+        "existing-participation": "You cannot take this customised test.<br/>There is already a participation associated with the name { firstName } { lastName }.<br/>Please contact your teacher so that they can delete your previous participation in Pix Orga."
       }
     },
     "campaign-landing": {

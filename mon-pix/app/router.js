@@ -98,6 +98,9 @@ Router.map(function () {
       this.route('tutorial', { path: '/didacticiel' });
       this.route('skill-review', { path: '/resultats' });
     });
+    this.route('errors', { path: '/erreurs' }, function () {
+      this.route('existing-participation', { path: '/participation-existante' });
+    });
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function () {
