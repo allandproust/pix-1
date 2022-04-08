@@ -22,10 +22,4 @@ const logger = pino(
   prettyPrint
 );
 
-logger.error('ERROR logs enabled');
-logger.warn('WARN logs enabled');
-logger.info('INFO logs enabled');
-logger.debug('DEBUG logs enabled');
-logger.trace('TRACE logs enabled');
-
 module.exports = logger;
