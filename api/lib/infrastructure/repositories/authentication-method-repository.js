@@ -31,6 +31,10 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
     return new AuthenticationMethod.PoleEmploiAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
+  if (identityProvider === AuthenticationMethod.identityProviders.GAR) {
+    return new AuthenticationMethod.GARAuthenticationComplement(bookshelfAuthenticationComplement);
+  }
+
   return undefined;
 }
 
