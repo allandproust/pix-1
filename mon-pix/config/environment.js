@@ -50,6 +50,14 @@ module.exports = function (environment) {
       host: process.env.POLE_EMPLOI_AUTHENTICATION_URL,
     },
 
+    cnav: {
+      afterLogoutUri: process.env.CNAV_AFTER_LOGOUT_URI,
+      authEndpoint: '/connexion/oauth2/authorize',
+      endSessionEndpoint: '/compte/deconnexion',
+      expiresIn: 60000, // Short expire time (60s) for testing purpose,
+      host: process.env.CNAV_AUTHENTICATION_URL,
+    },
+
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
@@ -186,6 +194,9 @@ module.exports = function (environment) {
 
     ENV.poleEmploi.host = 'https://authentification-candidat-r.pe-qvr.fr';
     ENV.poleEmploi.afterLogoutUri = 'http://localhost.fr:4200/';
+
+    ENV.cnav.host = 'https://authentification-candidat-r.pe-qvr.fr';
+    ENV.cnav.afterLogoutUri = 'http://localhost.fr:4200/';
   }
 
   if (environment === 'test') {
@@ -211,6 +222,9 @@ module.exports = function (environment) {
 
     ENV.poleEmploi.host = 'https://authentification-candidat-r.pe-qvr.fr';
     ENV.poleEmploi.afterLogoutUri = 'http://localhost.fr:4200/';
+
+    ENV.cnav.host = 'https://authentification-candidat-r.pe-qvr.fr';
+    ENV.cnav.afterLogoutUri = 'http://localhost.fr:4200/';
   }
 
   if (environment === 'production') {
