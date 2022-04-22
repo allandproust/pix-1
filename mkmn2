@@ -1,0 +1,1 @@
+<label class="check-switch"><input role="switch" type="checkbox"><div class="check-switch__toggle-wrap"><span aria-hidden="true" class="check-switch__status" style="visibility: hidden;">Off</span><span aria-hidden="true" class="check-switch__toggle"></span><span aria-hidden="true" class="check-switch__status" style="visibility: visible;">On</span></div>Use Monaco Editor</label>
